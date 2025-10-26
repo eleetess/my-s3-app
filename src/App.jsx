@@ -1,35 +1,55 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import "./App.css";
+import { api } from "./api";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [memes, setMemes] = useState([]);
+
+  useEffect(() => {
+    api
+      .get("/memes")
+      .then(function (response) {
+        // handle success
+        console.log(response);
+        setMemes(response.data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      });
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <header className="mb-2">
+        <h1 className="font-bold text-4xl">My-s3-APP</h1>
+      </header>
+
+      <main className="min-h-[100vw]">
+        <h2>Meme Gallery</h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-6xl px-4">
+          {memes.map((meme) => (
+            <div
+              key={meme.id}
+              className="bg-white rounded-2xl shadow-md p-4 hover:scale-105 transition-transform duration-300"
+            >
+              <img
+                src={meme.imageUrl}
+                alt={meme.title}
+                className="rounded-lg w-full h-64 object-cover"
+              />
+              <h2 className="text-xl font-semibold mt-3 text-center">
+                {meme.title}
+              </h2>
+            </div>
+          ))}
+        </div>
+      </main>
+
+      <footer className="text-center">&copy; EleeTess</footer>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
