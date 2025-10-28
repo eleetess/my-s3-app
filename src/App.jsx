@@ -27,7 +27,7 @@ function App() {
 
       <main className="min-h-[100vw]">
         <h2>Meme Gallery</h2>
-
+        <p>Testing</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-6xl px-4">
           {memes.map((meme) => (
             <div
